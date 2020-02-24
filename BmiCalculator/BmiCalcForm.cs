@@ -94,7 +94,15 @@ namespace BmiCalculator
 
         private void calcButton_Click(object sender, EventArgs e)
         {
-            var resultForm = new BmiResultForm();
+            var age = GetIntFromText(ageTextBox.Text, 18, 100);
+            var height = GetIntFromText(heightTextBox.Text, 30, 240);
+            var weight = GetIntFromText(weightTextBox.Text, 2, 250);
+
+            if (!(age.IsValid && height.IsValid && weight.IsValid))
+                return;
+
+            var calcResult = BmiCalculator.Calculate(age.Value, height.Value, weight.Value, manRadioButton.Checked);
+            var resultForm = new BmiResultForm(calcResult.BmiImage, calcResult.BmiText, calcResult.BmiTextColor);
             resultForm.ShowDialog();
         }
     }

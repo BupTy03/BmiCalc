@@ -52,6 +52,7 @@
     <Compile Include="BmiCalcForm.Designer.cs">
       <DependentUpon>BmiCalcForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BmiCalculator.cs" />
     <Compile Include="BmiResultForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +61,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SegmentsList.cs" />
     <EmbeddedResource Include="BmiCalcForm.resx">
       <DependentUpon>BmiCalcForm.cs</DependentUpon>
     </EmbeddedResource>

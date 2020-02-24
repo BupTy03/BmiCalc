@@ -12,11 +12,13 @@ namespace BmiCalculator
 {
     public partial class BmiResultForm : Form
     {
-        public BmiResultForm()
+        public BmiResultForm(Image bmiImage, string message, Color messageColor)
         {
             InitializeComponent();
             bmiPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            bmiPictureBox.Image = Image.FromFile(@"D:\\USER\\Downloads\\55c601160d671.jpg");
+            bmiPictureBox.Image = bmiImage;
+            bmiResultLabel.Text = message;
+            bmiResultLabel.ForeColor = messageColor;
         }
 
         private void okButton_Click(object sender, EventArgs e)

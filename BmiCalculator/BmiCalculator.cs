@@ -47,7 +47,7 @@ namespace BmiCalculator
             if (m_bmiByAgesList != null)
                 return;
 
-            // Заполняю таблицу в соответствие с: https://simpledoc.ru/indeks-massy-tela/#start
+            // Заполняю таблицу в соответствии с: https://simpledoc.ru/indeks-massy-tela/#start
 
             m_bmiImages = new Dictionary<string, Image>{ 
                 ["Дефицит массы тела"] = Image.FromFile(@"..\\..\\img\\skelet.jpg"),

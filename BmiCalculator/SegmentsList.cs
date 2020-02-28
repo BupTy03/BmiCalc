@@ -5,12 +5,42 @@ using System.Text;
 
 namespace SegmentsList
 {
+    /// <summary>
+    /// Список интервалов.
+    /// Класс, представляющий последовательно расположенные интервалы
+    /// значений c ключом типа TKey.
+    /// С каждым интервалом ассоциировано значение типа TValue.
+    /// Следующее добавленное значение ключа TKey является началом нового интервала 
+    /// и, одновременно, концом старого (предыдущего).
+    /// Нижняя граница включена в интервал, а верхняя - нет.
+    /// Например, чтобы получить такой список интервалов: [2;5)[5;9)[9;бесконечность)
+    /// нужно добавить три значения:
+    /// <code>
+    /// SegmentsList<int, string> lst;
+    /// lst.Add(2, "First interval");
+    /// lst.Add(5, "Second interval");
+    /// lst.Add(9, "Third interval");
+    /// </code>
+    /// Как видно из примера, можно добавить текстовое описание каждого интервала,
+    /// используя в качестве типа TValue тип string.
+    /// </summary>
+    /// <typeparam name="TKey">Тип ключа.</typeparam>
+    /// <typeparam name="TValue">Тип значения.</typeparam>
     class SegmentsList<TKey, TValue> where TKey : IComparable
     {
         public SegmentsList()
         {
         }
 
+        /// <summary>
+        /// Добавление нового интервала.
+        /// </summary>
+        /// <param name="lowerBound">
+        /// Ключ, который станет нижней границей нового интревала и 
+        /// верхней границей предыдущего.
+        /// </param>
+        /// <param name="value">Значение, которое будет ассоциировано с интервалом.</param>
+        /// <returns>Возвращает true при успешном добавлении интервала.</returns>
         public bool Add(TKey lowerBound, TValue value)
         {
             var segment = new Segment(lowerBound, value);
@@ -23,43 +53,75 @@ namespace SegmentsList
             return true;
         }
 
-        public TValue this[TKey lowerBound]
+        /// <summary>
+        /// Оператор индексации как для обычного массива.
+        /// Возвращает значение, ассоциированное с интервалом,
+        /// при передаче любого index, который входит в этот интервал [.., index, ...).
+        /// </summary>
+        /// <param name="index">Индекс - ключ по которому определяется интервал.</param>
+        /// <returns>Значение, ассоциированное с этим интервалом.</returns>
+        /// <exception cref="System.IndexOutOfRangeException">Бросается если интервал не найден.</exception>
+        public TValue this[TKey index]
         {
             get
             {
                 if (m_data.Count == 0)
                     throw new IndexOutOfRangeException();
 
-                var segment = new Segment(lowerBound, default(TValue));
-                int index = m_data.BinarySearch(segment, new SegmentComp());
-                if (index >= 0)
-                    return m_data[index].Value;
+                var segment = new Segment(index, default(TValue));
+                int foundIndex = m_data.BinarySearch(segment, new SegmentComp());
+                if (foundIndex >= 0)
+                    return m_data[foundIndex].Value;
 
-                index = ~index;
-                return m_data[index - 1].Value;
+                foundIndex = ~foundIndex;
+                return m_data[foundIndex - 1].Value;
             }
         }
 
+        /// <summary>
+        /// Класс, представляющий интервал.
+        /// </summary>
         private struct Segment
         {
+            /// <summary>
+            /// Простой конструктор, инициализирующий поля.
+            /// </summary>
+            /// <param name="lowerBound">Нижняя граница.</param>
+            /// <param name="value">Значение.</param>
             public Segment(TKey lowerBound, TValue value)
             {
                 LowerBound = lowerBound;
                 Value = value;
             }
 
+            /// <summary>
+            /// Нижняя граница интервала.
+            /// </summary>
             public TKey LowerBound { get; }
+            /// <summary>
+            /// Значение, ассоциированное с интервалом.
+            /// </summary>
             public TValue Value { get; }
         }
 
+        /// <summary>
+        /// Компаратор, реализующий интерфейс IComparer для сегмента.
+        /// </summary>
         private class SegmentComp : IComparer<Segment>
         {
+            /// <summary>
+            /// Функция сравнения, соответствующая интерфейсу IComparer
+            /// </summary>
             public int Compare(Segment x, Segment y)
             {
                 return x.LowerBound.CompareTo(y.LowerBound);
             }
         }
 
+        /// <summary>
+        /// Сегменты хрянятся последовательно в обычном сортированном списке.
+        /// Список всегда отсортирован - это инвариант данного класса.
+        /// </summary>
         private List<Segment> m_data = new List<Segment>();
     }
 }

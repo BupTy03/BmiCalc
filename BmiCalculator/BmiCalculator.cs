@@ -30,13 +30,12 @@ namespace BmiCalculator
         {
             InitData();
 
-            // TODO: сделать чтобы gender(пол) на что-то влиял
             double heightInMeters = height * 0.01;
             double bmiValue = weight / Math.Pow(heightInMeters, 2.0);
 
             string message = m_bmiByAgesList[age][bmiValue];
             return new BmiCalculationResult(
-                m_bmiImages[message], 
+                gender ? m_mensBmiImages[message] : m_womensBmibmiImages[message], 
                 String.Format("Ваш BMI: {0:f1}. ", bmiValue) + message,
                 message == "Норма" ? Color.ForestGreen : Color.Red);
         }
@@ -49,14 +48,28 @@ namespace BmiCalculator
 
             // Заполняю таблицу в соответствии с: https://simpledoc.ru/indeks-massy-tela/#start
 
-            m_bmiImages = new Dictionary<string, Image>{ 
-                ["Дефицит массы тела"] = Image.FromFile(@"..\\..\\img\\skelet.jpg"),
-                ["Норма"] = Image.FromFile(@"..\\..\\img\\norma.jpg"),
-                ["Избыток массы тела"] = Image.FromFile(@"..\\..\\img\\train.jpg"),
-                ["Ожирение 1 степени"] = Image.FromFile(@"..\\..\\img\\train.jpg"),
-                ["Ожирение 2 степени"] = Image.FromFile(@"..\\..\\img\\train.jpg"),
-                ["Ожирение 3 степени"] = Image.FromFile(@"..\\..\\img\\train.jpg"),
-                ["Ожирение 4 степени"] = Image.FromFile(@"..\\..\\img\\train.jpg")
+            const string imagePathPrefix = "..\\..\\img\\";
+
+            m_mensBmiImages = new Dictionary<string, Image>
+            { 
+                ["Дефицит массы тела"] = Image.FromFile(imagePathPrefix + "m1.jpg"),
+                ["Норма"] = Image.FromFile(imagePathPrefix + "m2.jpg"),
+                ["Избыток массы тела"] = Image.FromFile(imagePathPrefix + "m3.jpg"),
+                ["Ожирение 1 степени"] = Image.FromFile(imagePathPrefix + "m4.jpg"),
+                ["Ожирение 2 степени"] = Image.FromFile(imagePathPrefix + "m5.jpg"),
+                ["Ожирение 3 степени"] = Image.FromFile(imagePathPrefix + "m5.jpg"),
+                ["Ожирение 4 степени"] = Image.FromFile(imagePathPrefix + "m5.jpg")
+            };
+
+            m_womensBmibmiImages = new Dictionary<string, Image>
+            {
+                ["Дефицит массы тела"] = Image.FromFile(imagePathPrefix + "f1.jpg"),
+                ["Норма"] = Image.FromFile(imagePathPrefix + "f2.jpg"),
+                ["Избыток массы тела"] = Image.FromFile(imagePathPrefix + "f3.jpg"),
+                ["Ожирение 1 степени"] = Image.FromFile(imagePathPrefix + "f4.jpg"),
+                ["Ожирение 2 степени"] = Image.FromFile(imagePathPrefix + "f5.jpg"),
+                ["Ожирение 3 степени"] = Image.FromFile(imagePathPrefix + "f5.jpg"),
+                ["Ожирение 4 степени"] = Image.FromFile(imagePathPrefix + "f5.jpg")
             };
 
             // средний возраст
@@ -86,6 +99,7 @@ namespace BmiCalculator
         }
 
         private static AgesBMIList m_bmiByAgesList = null;
-        private static Dictionary<string, Image> m_bmiImages = null;
+        private static Dictionary<string, Image> m_mensBmiImages = null;
+        private static Dictionary<string, Image> m_womensBmibmiImages = null;
     }
 }

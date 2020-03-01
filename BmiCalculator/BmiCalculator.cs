@@ -10,6 +10,9 @@ using SegmentsList;
 
 namespace BmiCalculator
 {
+    /// <summary>
+    /// Синглтон, инкапсулирующий расчёт BMI.
+    /// </summary>
     public sealed class BmiCalculator
     {
         private static readonly BmiCalculator m_instance = new BmiCalculator();
@@ -19,6 +22,9 @@ namespace BmiCalculator
         {
         }
 
+        /// <summary>
+        /// Уровень ожирения.
+        /// </summary>
         private enum FatLevel
         {
             Underweight,
@@ -30,6 +36,10 @@ namespace BmiCalculator
             FourthGradeObesity
         }
 
+        /// <summary>
+        /// Запись, соответствующая определённому уровню жирности.
+        /// Хранит картинки(для мужчин и для женщин соответственно), сообщение и цвет текста.
+        /// </summary>
         private struct FatLevelEntry
         {
             public FatLevelEntry(Image menImage, Image womenImage, string message, Color textColor)
@@ -46,6 +56,10 @@ namespace BmiCalculator
             public Color TextColor { get; }
         }
 
+        /// <summary>
+        /// Хранит результат вычислений, произведённых методом Calculate.
+        /// Содержит картинку, сообщение и цвет текста сообщения.
+        /// </summary>
         public struct BmiCalculationResult
         {
             public BmiCalculationResult(Image bmiImage, string bmiText, Color bmiTextColor)
@@ -104,6 +118,14 @@ namespace BmiCalculator
             m_bmiByAgesList.Add(30, oldAge);
         }
 
+        /// <summary>
+        /// Производит вычисление BMI и возвращает результат BmiCalculationResult.
+        /// </summary>
+        /// <param name="age">Возраст.</param>
+        /// <param name="height">Рост.</param>
+        /// <param name="weight">Вес.</param>
+        /// <param name="gender">Пол.</param>
+        /// <returns>Результаты вычисления BMI.</returns>
         public BmiCalculationResult Calculate(int age, int height, int weight, bool gender)
         {
             Debug.Assert(age >= 0);
@@ -121,7 +143,10 @@ namespace BmiCalculator
                 entry.TextColor);
         }
 
-
+        /// <summary>
+        /// Заполняет словарь записей FatLevelEntry, соответствующих определённым уровням жирности.
+        /// </summary>
+        /// <returns>Словарь с записями FatLevelEntry.</returns>
         private static Dictionary<FatLevel, FatLevelEntry> LoadEntries()
         {
             var mens = new Dictionary<FatLevel, string> 

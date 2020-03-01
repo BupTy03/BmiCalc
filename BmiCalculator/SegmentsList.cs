@@ -108,9 +108,6 @@ namespace SegmentsList
         /// </summary>
         private class SegmentComp : IComparer<Segment>
         {
-            /// <summary>
-            /// Функция сравнения, соответствующая интерфейсу IComparer
-            /// </summary>
             public int Compare(Segment x, Segment y)
             {
                 return x.LowerBound.CompareTo(y.LowerBound);
@@ -119,7 +116,9 @@ namespace SegmentsList
 
         /// <summary>
         /// Сегменты хрянятся последовательно в обычном сортированном списке.
-        /// Список всегда отсортирован - это инвариант данного класса.
+        /// Инварианты класса:
+        /// 1. Список хранит уникальные значения.
+        /// 2. Список всегда отсортирован по ключу.
         /// </summary>
         private List<Segment> m_data = new List<Segment>();
     }

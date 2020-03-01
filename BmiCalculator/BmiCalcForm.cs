@@ -101,7 +101,7 @@ namespace BmiCalculator
             if (!(age.IsValid && height.IsValid && weight.IsValid))
                 return;
 
-            var calcResult = BmiCalculator.Calculate(age.Value, height.Value, weight.Value, manRadioButton.Checked);
+            var calcResult = BmiCalculator.Instance.Calculate(age.Value, height.Value, weight.Value, manRadioButton.Checked);
             var resultForm = new BmiResultForm(calcResult.BmiImage, calcResult.BmiText, calcResult.BmiTextColor);
             resultForm.ShowDialog();
         }

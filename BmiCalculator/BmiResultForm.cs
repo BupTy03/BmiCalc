@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace BmiCalculator
 {
@@ -15,7 +10,7 @@ namespace BmiCalculator
         public BmiResultForm(Image bmiImage, string message, Color messageColor)
         {
             InitializeComponent();
-            bmiPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            bmiPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
             bmiPictureBox.Image = bmiImage;
             bmiResultLabel.Text = message;
             bmiResultLabel.ForeColor = messageColor;

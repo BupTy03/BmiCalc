@@ -38,7 +38,7 @@
             // 
             this.bmiPictureBox.Location = new System.Drawing.Point(12, 12);
             this.bmiPictureBox.Name = "bmiPictureBox";
-            this.bmiPictureBox.Size = new System.Drawing.Size(399, 221);
+            this.bmiPictureBox.Size = new System.Drawing.Size(318, 416);
             this.bmiPictureBox.TabIndex = 0;
             this.bmiPictureBox.TabStop = false;
             // 
@@ -47,7 +47,7 @@
             this.bmiResultLabel.AutoSize = true;
             this.bmiResultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bmiResultLabel.ForeColor = System.Drawing.Color.Red;
-            this.bmiResultLabel.Location = new System.Drawing.Point(9, 271);
+            this.bmiResultLabel.Location = new System.Drawing.Point(8, 453);
             this.bmiResultLabel.Name = "bmiResultLabel";
             this.bmiResultLabel.Size = new System.Drawing.Size(88, 24);
             this.bmiResultLabel.TabIndex = 1;
@@ -55,7 +55,7 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(176, 328);
+            this.okButton.Location = new System.Drawing.Point(134, 494);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
@@ -67,14 +67,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 363);
+            this.ClientSize = new System.Drawing.Size(342, 529);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.bmiResultLabel);
             this.Controls.Add(this.bmiPictureBox);
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(439, 402);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(439, 402);
+            this.MinimumSize = new System.Drawing.Size(358, 568);
             this.Name = "BmiResultForm";
             this.ShowIcon = false;
             this.Text = "Результаты";

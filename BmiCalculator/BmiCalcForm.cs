@@ -1,17 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
+
 
 namespace BmiCalculator
 {
     public partial class BmiCalcForm : Form
     {
+        private const int MinAge = 0;
+        private const int MaxAge = 100;
+
+        private const int MinHeight = 30;
+        private const int MaxHeight = 240;
+
+        private const int MinWeight = 2;
+        private const int MaxWeight = 250;
+
         public BmiCalcForm()
         {
             InitializeComponent();
@@ -41,7 +46,8 @@ namespace BmiCalculator
                 return new GetIntFromTextResult(0, false, "Некорректное значение");
 
             if (!(value >= minVal && value <= maxVal))
-                return new GetIntFromTextResult(0, false, String.Format("Значение должно быть в пределах от {0} до {1}", minVal, maxVal));
+                return new GetIntFromTextResult(0, false, 
+                    String.Format("Значение должно быть в пределах от {0} до {1}", minVal, maxVal));
 
             return new GetIntFromTextResult(value, true, "");
         }
@@ -51,7 +57,7 @@ namespace BmiCalculator
             return value >= minValue && value <= maxValue;
         }
 
-        private static void ValidateTextBox(TextBox txtBox, ErrorProvider errProvider, int minVal, int maxVal)
+        private static bool ValidateTextBox(TextBox txtBox, ErrorProvider errProvider, int minVal, int maxVal)
         {
             string text = txtBox.Text;
             if (text.Length > 0)
@@ -60,7 +66,6 @@ namespace BmiCalculator
                 if (!InRange(text[prevLastIndex], '0', '9'))
                 {
                     txtBox.Text = text.Remove(prevLastIndex, 1);
-                    return;
                 }
             }
 
@@ -69,22 +74,16 @@ namespace BmiCalculator
                 errProvider.SetError(txtBox, result.ErrorMessage);
             else
                 errProvider.Clear();
+
+            return result.IsValid;
         }
 
-        // Event handlers
-        private void ageTextBox_TextChanged(object sender, EventArgs e)
+        private void OnTextChanged(object sender, EventArgs e)
         {
-            ValidateTextBox((TextBox)sender, ageErrorProvider, 2, 100);
-        }
-
-        private void heightTextBox_TextChanged(object sender, EventArgs e)
-        {
-            ValidateTextBox((TextBox)sender, heightErrorProvider, 30, 240);
-        }
-
-        private void weightTextBox_TextChanged(object sender, EventArgs e)
-        {
-            ValidateTextBox((TextBox)sender, weightErrorProvider, 2, 250);
+            calcButton.Enabled =
+                ValidateTextBox(ageTextBox, ageErrorProvider, MinAge, MaxAge) &&
+                ValidateTextBox(heightTextBox, ageErrorProvider, MinHeight, MaxHeight) &&
+                ValidateTextBox(weightTextBox, ageErrorProvider, MinWeight, MaxWeight);
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -94,14 +93,32 @@ namespace BmiCalculator
 
         private void calcButton_Click(object sender, EventArgs e)
         {
-            var age = GetIntFromText(ageTextBox.Text, 18, 100);
-            var height = GetIntFromText(heightTextBox.Text, 30, 240);
-            var weight = GetIntFromText(weightTextBox.Text, 2, 250);
+            var age = GetIntFromText(ageTextBox.Text, MinAge, MaxAge);
+            var height = GetIntFromText(heightTextBox.Text, MinHeight, MaxHeight);
+            var weight = GetIntFromText(weightTextBox.Text, MinWeight, MaxWeight);
 
-            if (!(age.IsValid && height.IsValid && weight.IsValid))
+            Debug.Assert(age.IsValid && height.IsValid && weight.IsValid);
+
+            BmiCalculator.BmiCalculationResult calcResult;
+            try
+            {
+                calcResult = BmiCalculator.Instance.Calculate(age.Value, height.Value, weight.Value, manRadioButton.Checked);
+            }
+            catch(FileNotFoundException exception)
+            {
+                MessageBox.Show(String.Format("Файл изображения \"{0}\" не найден!", exception.FileName), 
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 return;
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Упс, кажется что-то пошло не так :(", "Ошибка", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            var calcResult = BmiCalculator.Instance.Calculate(age.Value, height.Value, weight.Value, manRadioButton.Checked);
+                return;
+            }
+
             var resultForm = new BmiResultForm(calcResult.BmiImage, calcResult.BmiText, calcResult.BmiTextColor);
             resultForm.ShowDialog();
         }

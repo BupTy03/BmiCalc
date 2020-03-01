@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 
 using SegmentsList;
 
@@ -66,6 +67,16 @@ namespace BmiCalculator
 
             // Таблица заполнена в соответствии с: https://simpledoc.ru/indeks-massy-tela/#start
 
+            // мелкий возраст
+            var littleAge = new SegmentsList<double, FatLevel>();
+            littleAge.Add(0, FatLevel.Underweight);
+            littleAge.Add(15.3, FatLevel.Normal);
+            littleAge.Add(17, FatLevel.Owerweight);
+            littleAge.Add(18.3, FatLevel.FirstGradeObesity);
+            littleAge.Add(20.3, FatLevel.SecondGradeObesity);
+            littleAge.Add(25, FatLevel.ThirdGradeObesity);
+            littleAge.Add(35, FatLevel.FourthGradeObesity);
+
             // средний возраст
             var middleAge = new SegmentsList<double, FatLevel>();
             middleAge.Add(0,    FatLevel.Underweight);
@@ -88,14 +99,20 @@ namespace BmiCalculator
 
             // таблица возрастов
             m_bmiByAgesList = new SegmentsList<int, SegmentsList<double, FatLevel>>();
+            m_bmiByAgesList.Add(0, littleAge);
             m_bmiByAgesList.Add(18, middleAge);
             m_bmiByAgesList.Add(30, oldAge);
         }
 
         public BmiCalculationResult Calculate(int age, int height, int weight, bool gender)
         {
-            double heightInMeters = height * 0.01;
-            double bmiValue = weight / Math.Pow(heightInMeters, 2.0);
+            Debug.Assert(age >= 0);
+            Debug.Assert(height > 0);
+            Debug.Assert(weight > 0);
+
+            const double centimetersInMeters = 100.0;
+            double heightInMeters = height / centimetersInMeters;
+            double bmiValue = weight / (heightInMeters * heightInMeters);
 
             FatLevelEntry entry = m_fatLevelEntries[m_bmiByAgesList[age][bmiValue]];
             return new BmiCalculationResult(
@@ -142,13 +159,13 @@ namespace BmiCalculator
 
             var colors = new Dictionary<FatLevel, Color>
             {
-                [FatLevel.Underweight]          = Color.Aqua,
-                [FatLevel.Normal]               = Color.ForestGreen,
-                [FatLevel.Owerweight]           = Color.Orange,
-                [FatLevel.FirstGradeObesity]    = Color.OrangeRed,
-                [FatLevel.SecondGradeObesity]   = Color.Red,
-                [FatLevel.ThirdGradeObesity]    = Color.Red,
-                [FatLevel.FourthGradeObesity]   = Color.DarkRed
+                [FatLevel.Underweight]          = Color.FromArgb(149, 188, 221),
+                [FatLevel.Normal]               = Color.FromArgb(125, 195, 159),
+                [FatLevel.Owerweight]           = Color.FromArgb(253, 216, 20),
+                [FatLevel.FirstGradeObesity]    = Color.FromArgb(244, 160, 70),
+                [FatLevel.SecondGradeObesity]   = Color.FromArgb(231, 55, 65),
+                [FatLevel.ThirdGradeObesity]    = Color.FromArgb(231, 55, 65),
+                [FatLevel.FourthGradeObesity]   = Color.FromArgb(231, 55, 65)
             };
 
 

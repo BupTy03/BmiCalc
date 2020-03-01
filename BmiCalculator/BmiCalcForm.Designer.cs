@@ -50,6 +50,7 @@
             // 
             // calcButton
             // 
+            this.calcButton.Enabled = false;
             this.calcButton.Location = new System.Drawing.Point(72, 119);
             this.calcButton.Name = "calcButton";
             this.calcButton.Size = new System.Drawing.Size(75, 23);
@@ -124,7 +125,7 @@
             this.heightTextBox.Name = "heightTextBox";
             this.heightTextBox.Size = new System.Drawing.Size(146, 20);
             this.heightTextBox.TabIndex = 7;
-            this.heightTextBox.TextChanged += new System.EventHandler(this.heightTextBox_TextChanged);
+            this.heightTextBox.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // weightTextBox
             // 
@@ -132,7 +133,7 @@
             this.weightTextBox.Name = "weightTextBox";
             this.weightTextBox.Size = new System.Drawing.Size(146, 20);
             this.weightTextBox.TabIndex = 8;
-            this.weightTextBox.TextChanged += new System.EventHandler(this.weightTextBox_TextChanged);
+            this.weightTextBox.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // heightErrorProvider
             // 
@@ -148,7 +149,7 @@
             this.ageTextBox.Name = "ageTextBox";
             this.ageTextBox.Size = new System.Drawing.Size(146, 20);
             this.ageTextBox.TabIndex = 9;
-            this.ageTextBox.TextChanged += new System.EventHandler(this.ageTextBox_TextChanged);
+            this.ageTextBox.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // label4
             // 
@@ -167,7 +168,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 154);
+            this.ClientSize = new System.Drawing.Size(244, 154);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ageTextBox);
             this.Controls.Add(this.weightTextBox);
@@ -179,9 +180,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.calcButton);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(256, 168);
+            this.MinimumSize = new System.Drawing.Size(260, 168);
             this.Name = "BmiCalcForm";
             this.ShowIcon = false;
             this.Text = "Калькулятор BMI";

@@ -10,19 +10,13 @@ namespace BmiCalculator
     /// </summary>
     public partial class BmiResultForm : Form
     {
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="bmiImage">Картинка, отображающая степень ожирения.</param>
-        /// <param name="message">Сообщение, отображающее степень ожирения.</param>
-        /// <param name="messageColor">Цвет сообщения.</param>
-        public BmiResultForm(Image bmiImage, string message, Color messageColor)
+        public BmiResultForm(BmiCalculator.CalculationResult calculationResult)
         {
             InitializeComponent();
             bmiPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
-            bmiPictureBox.Image = bmiImage;
-            bmiResultLabel.Text = message;
-            bmiResultLabel.ForeColor = messageColor;
+            bmiPictureBox.Image = calculationResult.BmiImage;
+            bmiResultLabel.Text = calculationResult.BmiText;
+            bmiResultLabel.ForeColor = calculationResult.BmiTextColor;
         }
 
         /// <summary>

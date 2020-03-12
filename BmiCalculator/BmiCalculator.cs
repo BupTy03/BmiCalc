@@ -15,8 +15,11 @@ namespace BmiCalculator
     /// </summary>
     public sealed class BmiCalculator
     {
-        private static readonly BmiCalculator m_instance = new BmiCalculator();
-        public static BmiCalculator Instance => m_instance;
+        private static readonly BmiCalculator _instance = new BmiCalculator();
+        public static BmiCalculator Instance => _instance;
+
+        private readonly SegmentsList<int, SegmentsList<double, FatLevel>> _bmiByAgesList;
+        private readonly Dictionary<FatLevel, FatLevelEntry> _fatLevelEntries;
 
         static BmiCalculator()
         {
@@ -60,9 +63,9 @@ namespace BmiCalculator
         /// Хранит результат вычислений, произведённых методом Calculate.
         /// Содержит картинку, сообщение и цвет текста сообщения.
         /// </summary>
-        public struct BmiCalculationResult
+        public struct CalculationResult
         {
-            public BmiCalculationResult(Image bmiImage, string bmiText, Color bmiTextColor)
+            public CalculationResult(Image bmiImage, string bmiText, Color bmiTextColor)
             {
                 BmiImage = bmiImage;
                 BmiText = bmiText;
@@ -76,7 +79,7 @@ namespace BmiCalculator
 
         private BmiCalculator()
         {
-            m_fatLevelEntries = LoadEntries();
+            _fatLevelEntries = LoadEntries();
 
 
             // Таблица заполнена в соответствии с: https://simpledoc.ru/indeks-massy-tela/#start
@@ -112,33 +115,24 @@ namespace BmiCalculator
             oldAge.Add(41, FatLevel.FourthGradeObesity);
 
             // таблица возрастов
-            m_bmiByAgesList = new SegmentsList<int, SegmentsList<double, FatLevel>>();
-            m_bmiByAgesList.Add(0, littleAge);
-            m_bmiByAgesList.Add(18, middleAge);
-            m_bmiByAgesList.Add(30, oldAge);
+            _bmiByAgesList = new SegmentsList<int, SegmentsList<double, FatLevel>>();
+            _bmiByAgesList.Add(0, littleAge);
+            _bmiByAgesList.Add(18, middleAge);
+            _bmiByAgesList.Add(30, oldAge);
         }
 
         /// <summary>
         /// Производит вычисление BMI и возвращает результат BmiCalculationResult.
         /// </summary>
-        /// <param name="age">Возраст.</param>
-        /// <param name="height">Рост.</param>
-        /// <param name="weight">Вес.</param>
-        /// <param name="gender">Пол.</param>
+        /// <param name="human">Человек</param>
         /// <returns>Результаты вычисления BMI.</returns>
-        public BmiCalculationResult Calculate(int age, int height, int weight, bool gender)
+        public CalculationResult Calculate(Human human)
         {
-            Debug.Assert(age >= 0);
-            Debug.Assert(height > 0);
-            Debug.Assert(weight > 0);
+            double bmiValue = human.WeightInKilograms / Math.Pow(human.HeightInMeters, 2.0);
+            FatLevelEntry entry = _fatLevelEntries[_bmiByAgesList[human.Age][bmiValue]];
 
-            const double centimetersInMeters = 100.0;
-            double heightInMeters = height / centimetersInMeters;
-            double bmiValue = weight / (heightInMeters * heightInMeters);
-
-            FatLevelEntry entry = m_fatLevelEntries[m_bmiByAgesList[age][bmiValue]];
-            return new BmiCalculationResult(
-                gender ? entry.MenImage : entry.WomenImage, 
+            return new CalculationResult(
+                human.Gender == Gender.Male ? entry.MenImage : entry.WomenImage, 
                 String.Format("Ваш BMI: {0:f1}. ", bmiValue) + entry.Message,
                 entry.TextColor);
         }
@@ -211,8 +205,5 @@ namespace BmiCalculator
 
             return result;
         }
-
-        private readonly SegmentsList<int, SegmentsList<double, FatLevel>> m_bmiByAgesList;
-        private readonly Dictionary<FatLevel, FatLevelEntry> m_fatLevelEntries;
     }
 }

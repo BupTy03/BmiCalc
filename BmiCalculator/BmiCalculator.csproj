@@ -59,6 +59,7 @@
     <Compile Include="BmiResultForm.Designer.cs">
       <DependentUpon>BmiResultForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Human.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SegmentsList.cs" />

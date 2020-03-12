@@ -55,7 +55,7 @@ namespace BmiCalculator
             {
                 if(!(value >= MinAge && value <= MaxAge))
                 {
-                    throw new ArgumentException("age can't be negative");
+                    throw new ArgumentException(String.Format("age must be in range[{0};{1}]", MinAge, MaxAge));
                 }
 
                 _age = value;
@@ -69,7 +69,7 @@ namespace BmiCalculator
             {
                 if (!(value >= MinHeight && value <= MaxHeight))
                 {
-                    throw new ArgumentException("height can't be negative or equal to zero");
+                    throw new ArgumentException(String.Format("height must be in range[{0};{1}]", MinHeight, MaxHeight));
                 }
 
                 _heightCm = value;
@@ -85,7 +85,7 @@ namespace BmiCalculator
             {
                 if (!(value >= MinWeight && value <= MaxWeight))
                 {
-                    throw new ArgumentException("weight can't be negative or equal to zero");
+                    throw new ArgumentException(String.Format("weight must be in range[{0};{1}]", MinWeight, MaxWeight));
                 }
 
                 _weightKg = value;

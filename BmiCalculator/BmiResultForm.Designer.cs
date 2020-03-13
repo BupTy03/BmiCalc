@@ -31,6 +31,7 @@
             this.bmiPictureBox = new System.Windows.Forms.PictureBox();
             this.bmiResultLabel = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bmiPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,19 +56,30 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(134, 494);
+            this.okButton.Location = new System.Drawing.Point(92, 494);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            this.okButton.Click += new System.EventHandler(this.OkButtonClicked);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(173, 494);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 3;
+            this.saveButton.Text = "Сохранить";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.SaveButtonClicked);
             // 
             // BmiResultForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(342, 529);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.bmiResultLabel);
             this.Controls.Add(this.bmiPictureBox);
@@ -86,5 +98,6 @@
         private System.Windows.Forms.PictureBox bmiPictureBox;
         private System.Windows.Forms.Label bmiResultLabel;
         private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.Button saveButton;
     }
 }

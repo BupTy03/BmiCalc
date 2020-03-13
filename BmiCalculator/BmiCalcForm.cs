@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.IO;
 
 
@@ -78,7 +77,7 @@ namespace BmiCalculator
         /// <summary>
         /// Обработка события нажатия на кнопку "Выход".
         /// </summary>
-        private void exitButton_Click(object sender, EventArgs e) => Close();
+        private void ExitButtonClicked(object sender, EventArgs e) => Close();
 
         /// <summary>
         /// Показать ошибку.
@@ -92,22 +91,24 @@ namespace BmiCalculator
         /// <summary>
         /// Обработка события нажатия на кнопку "Рассчитать".
         /// </summary>
-        private void calcButton_Click(object sender, EventArgs e)
+        private void CalculateButtonClicked(object sender, EventArgs e)
         {
             if(!ValidateForm())
             {
                 return;
             }
 
-            BmiCalculator.CalculationResult calcResult;
+            BmiCalculator.CalculationResults calcResult;
+            Human human;
             try
             {
                 int age = Int32.Parse(ageTextBox.Text);
                 int heightCm = Int32.Parse(heightTextBox.Text);
                 int weightKg = Int32.Parse(weightTextBox.Text);
-                Gender gender = manRadioButton.Checked ? Gender.Male : Gender.Female;
+                HumanGender gender = manRadioButton.Checked ? HumanGender.Male : HumanGender.Female;
 
-                calcResult = BmiCalculator.Instance.Calculate(new Human(age, heightCm, weightKg, gender));
+                human = new Human(age, heightCm, weightKg, gender);
+                calcResult = BmiCalculator.Instance.Calculate(human);
             }
             catch(FileNotFoundException exception)
             {
@@ -120,8 +121,10 @@ namespace BmiCalculator
                 return;
             }
 
-            var resultForm = new BmiResultForm(calcResult);
-            resultForm.ShowDialog();
+            using (var resultForm = new BmiResultForm(calcResult, human))
+            {
+                resultForm.ShowDialog();
+            }
         }
     }
 }

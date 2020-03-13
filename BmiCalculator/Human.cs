@@ -1,28 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 
 namespace BmiCalculator
 {
-    public enum Gender
+    public enum HumanGender
     {
-        Male, 
+        Male,
         Female
     }
 
     /// <summary>
     /// Класс, представляющий человека.
     /// </summary>
-    public class Human
+    [Serializable]
+    public class Human : ISerializable
     {
-        private int _age = 0;
-        private int _heightCm = 0;
-        private int _weightKg = 0;
-        private Gender _gender = Gender.Male;
-
         public const int MinAge = 0;
         public const int MaxAge = 100;
 
@@ -35,16 +28,44 @@ namespace BmiCalculator
         private const int CentimetersInMeter = 100;
 
 
+        private int _age = MinAge;
+        private int _heightCm = MinHeight;
+        private int _weightKg = MinWeight;
+        private HumanGender _gender = HumanGender.Male;
+
+
         public Human()
         {
         }
 
-        public Human(int age, int heightInCentimeters, int weightInKilograms, Gender gender)
+        public Human(int age, int heightInCentimeters, int weightInKilograms, HumanGender gender)
         {
+            CheckAge(age);
+            CheckHeight(heightInCentimeters);
+            CheckWeight(weightInKilograms);
+
             _age = age;
             _heightCm = heightInCentimeters;
             _weightKg = weightInKilograms;
             _gender = gender;
+        }
+
+
+        protected Human(SerializationInfo info, StreamingContext context)
+        {
+            Age = info.GetInt32(nameof(Age));
+            HeightInCentimeters = info.GetInt32(nameof(HeightInCentimeters));
+            WeightInKilograms = info.GetInt32(nameof(WeightInKilograms));
+            Gender = (HumanGender)info.GetValue(nameof(Gender), typeof(HumanGender));
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Age), Age);
+            info.AddValue(nameof(HeightInCentimeters), HeightInCentimeters);
+            info.AddValue(nameof(WeightInKilograms), WeightInKilograms);
+            info.AddValue(nameof(Gender), Gender);
+            info.AddValue(nameof(Bmi), Bmi);
         }
 
 
@@ -53,11 +74,7 @@ namespace BmiCalculator
             get { return _age; }
             set
             {
-                if(!(value >= MinAge && value <= MaxAge))
-                {
-                    throw new ArgumentException(String.Format("age must be in range[{0};{1}]", MinAge, MaxAge));
-                }
-
+                CheckAge(value);
                 _age = value;
             }
         }
@@ -67,11 +84,7 @@ namespace BmiCalculator
             get { return _heightCm; }
             set
             {
-                if (!(value >= MinHeight && value <= MaxHeight))
-                {
-                    throw new ArgumentException(String.Format("height must be in range[{0};{1}]", MinHeight, MaxHeight));
-                }
-
+                CheckHeight(value);
                 _heightCm = value;
             }
         }
@@ -83,15 +96,37 @@ namespace BmiCalculator
             get { return _weightKg; }
             set
             {
-                if (!(value >= MinWeight && value <= MaxWeight))
-                {
-                    throw new ArgumentException(String.Format("weight must be in range[{0};{1}]", MinWeight, MaxWeight));
-                }
-
+                CheckWeight(value);
                 _weightKg = value;
             }
         }
 
-        public Gender Gender { get; set; }
+        public HumanGender Gender { get; set; }
+
+        public double Bmi => WeightInKilograms / Math.Pow(HeightInMeters, 2.0);
+
+        private static void CheckAge(int age)
+        {
+            if (!(age >= MinAge && age <= MaxAge))
+            {
+                throw new ArgumentException(String.Format("age must be in range[{0};{1}]", MinAge, MaxAge));
+            }
+        }
+
+        private static void CheckHeight(int heightCm)
+        {
+            if (!(heightCm >= MinHeight && heightCm <= MaxHeight))
+            {
+                throw new ArgumentException(String.Format("height must be in range[{0};{1}]", MinHeight, MaxHeight));
+            }
+        }
+
+        private static void CheckWeight(int weightKg)
+        {
+            if (!(weightKg >= MinWeight && weightKg <= MaxWeight))
+            {
+                throw new ArgumentException(String.Format("weight must be in range[{0};{1}]", MinWeight, MaxWeight));
+            }
+        }
     }
 }

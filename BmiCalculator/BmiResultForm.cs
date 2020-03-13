@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.Text;
+using System.Text.Json;
 
 
 namespace BmiCalculator
@@ -10,9 +12,16 @@ namespace BmiCalculator
     /// </summary>
     public partial class BmiResultForm : Form
     {
-        public BmiResultForm(BmiCalculator.CalculationResult calculationResult)
+        private const string SerializedObjectsFileName = "bmi.json";
+
+        private readonly Human _human;
+
+        public BmiResultForm(BmiCalculator.CalculationResults calculationResult, Human human)
         {
             InitializeComponent();
+
+            _human = human;
+
             bmiPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
             bmiPictureBox.Image = calculationResult.BmiImage;
             bmiResultLabel.Text = calculationResult.BmiText;
@@ -22,6 +31,37 @@ namespace BmiCalculator
         /// <summary>
         /// Обработка события нажатия на кнопку "OK".
         /// </summary>
-        private void okButton_Click(object sender, EventArgs e) => Close();
+        private void OkButtonClicked(object sender, EventArgs e) => Close();
+
+        /// <summary>
+        /// Сохранение данных.
+        /// </summary>
+        private async void SaveHumanToFile()
+        {
+            saveButton.Enabled = false;
+
+            FileStream fileStream = null;
+            try
+            {
+                byte[] separator = new UTF8Encoding(true).GetBytes("\n");
+                fileStream = new FileStream(SerializedObjectsFileName, FileMode.Append | FileMode.Create);
+                await JsonSerializer.SerializeAsync(fileStream, _human);
+                fileStream.Write(separator, 0, separator.Length);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Не удалось сохранить результаты ):", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                fileStream.Close();
+                saveButton.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Обработка нажатия кнопки "Сохранить".
+        /// </summary>
+        private void SaveButtonClicked(object sender, EventArgs e) => SaveHumanToFile();
     }
 }

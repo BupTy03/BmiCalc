@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.IO;
-using System.Diagnostics;
 
 using SegmentsList;
 
@@ -63,9 +62,9 @@ namespace BmiCalculator
         /// Хранит результат вычислений, произведённых методом Calculate.
         /// Содержит картинку, сообщение и цвет текста сообщения.
         /// </summary>
-        public struct CalculationResult
+        public struct CalculationResults
         {
-            public CalculationResult(Image bmiImage, string bmiText, Color bmiTextColor)
+            public CalculationResults(Image bmiImage, string bmiText, Color bmiTextColor)
             {
                 BmiImage = bmiImage;
                 BmiText = bmiText;
@@ -126,14 +125,13 @@ namespace BmiCalculator
         /// </summary>
         /// <param name="human">Человек</param>
         /// <returns>Результаты вычисления BMI.</returns>
-        public CalculationResult Calculate(Human human)
+        public CalculationResults Calculate(Human human)
         {
-            double bmiValue = human.WeightInKilograms / Math.Pow(human.HeightInMeters, 2.0);
-            FatLevelEntry entry = _fatLevelEntries[_bmiByAgesList[human.Age][bmiValue]];
+            FatLevelEntry entry = _fatLevelEntries[_bmiByAgesList[human.Age][human.Bmi]];
 
-            return new CalculationResult(
-                human.Gender == Gender.Male ? entry.MenImage : entry.WomenImage, 
-                String.Format("Ваш BMI: {0:f1}. ", bmiValue) + entry.Message,
+            return new CalculationResults(
+                human.Gender == HumanGender.Male ? entry.MenImage : entry.WomenImage, 
+                String.Format("Ваш BMI: {0:f1}. ", human.Bmi) + entry.Message,
                 entry.TextColor);
         }
 

@@ -57,7 +57,7 @@
             this.calcButton.TabIndex = 0;
             this.calcButton.Text = "Рассчитать";
             this.calcButton.UseVisualStyleBackColor = true;
-            this.calcButton.Click += new System.EventHandler(this.calcButton_Click);
+            this.calcButton.Click += new System.EventHandler(this.CalculateButtonClicked);
             // 
             // exitButton
             // 
@@ -67,7 +67,7 @@
             this.exitButton.TabIndex = 1;
             this.exitButton.Text = "Выход";
             this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.exitButton.Click += new System.EventHandler(this.ExitButtonClicked);
             // 
             // label1
             // 

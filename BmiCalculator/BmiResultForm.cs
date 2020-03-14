@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 
 namespace BmiCalculator
@@ -36,7 +37,7 @@ namespace BmiCalculator
         /// <summary>
         /// Сохранение данных.
         /// </summary>
-        private async void SaveHumanToFile()
+        private async Task SaveHumanToFile()
         {
             saveButton.Enabled = false;
 

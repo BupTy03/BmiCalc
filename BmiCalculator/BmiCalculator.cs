@@ -83,7 +83,6 @@ namespace BmiCalculator
 
             // Таблица заполнена в соответствии с: https://simpledoc.ru/indeks-massy-tela/#start
 
-            // мелкий возраст
             var littleAge = new SegmentsList<double, FatLevel>();
             littleAge.Add(0, FatLevel.Underweight);
             littleAge.Add(15.3, FatLevel.Normal);
@@ -93,7 +92,6 @@ namespace BmiCalculator
             littleAge.Add(25, FatLevel.ThirdGradeObesity);
             littleAge.Add(35, FatLevel.FourthGradeObesity);
 
-            // средний возраст
             var middleAge = new SegmentsList<double, FatLevel>();
             middleAge.Add(0,    FatLevel.Underweight);
             middleAge.Add(19.5, FatLevel.Normal);
@@ -103,7 +101,6 @@ namespace BmiCalculator
             middleAge.Add(35,   FatLevel.ThirdGradeObesity);
             middleAge.Add(40,   FatLevel.FourthGradeObesity);
 
-            // старший возраст
             var oldAge = new SegmentsList<double, FatLevel>();
             oldAge.Add(0,  FatLevel.Underweight);
             oldAge.Add(20, FatLevel.Normal);
@@ -113,7 +110,7 @@ namespace BmiCalculator
             oldAge.Add(36, FatLevel.ThirdGradeObesity);
             oldAge.Add(41, FatLevel.FourthGradeObesity);
 
-            // таблица возрастов
+
             _bmiByAgesList = new SegmentsList<int, SegmentsList<double, FatLevel>>();
             _bmiByAgesList.Add(0, littleAge);
             _bmiByAgesList.Add(18, middleAge);
@@ -123,7 +120,7 @@ namespace BmiCalculator
         /// <summary>
         /// Производит вычисление BMI и возвращает результат BmiCalculationResult.
         /// </summary>
-        /// <param name="human">Человек</param>
+        /// <param name="human">Человек.</param>
         /// <returns>Результаты вычисления BMI.</returns>
         public CalculationResults Calculate(Human human)
         {

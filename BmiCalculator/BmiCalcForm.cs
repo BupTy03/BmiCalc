@@ -57,7 +57,7 @@ namespace BmiCalculator
         /// <summary>
         /// Проверяет введённые в форму данные.
         /// </summary>
-        /// <returns>true если форма правильно обработана</returns>
+        /// <returns>true если форма правильно заполнена.</returns>
         private bool ValidateForm()
         {
             return
@@ -82,7 +82,7 @@ namespace BmiCalculator
         /// <summary>
         /// Показать ошибку.
         /// </summary>
-        /// <param name="errorMessage">Сообщение об ошибке</param>
+        /// <param name="errorMessage">Сообщение об ошибке.</param>
         private void ShowError(string errorMessage)
         {
             MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);

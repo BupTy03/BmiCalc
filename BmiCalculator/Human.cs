@@ -13,8 +13,7 @@ namespace BmiCalculator
     /// <summary>
     /// Класс, представляющий человека.
     /// </summary>
-    [Serializable]
-    public class Human : ISerializable
+    public class Human
     {
         public const int MinAge = 0;
         public const int MaxAge = 100;
@@ -51,24 +50,6 @@ namespace BmiCalculator
         }
 
 
-        protected Human(SerializationInfo info, StreamingContext context)
-        {
-            Age = info.GetInt32(nameof(Age));
-            HeightInCentimeters = info.GetInt32(nameof(HeightInCentimeters));
-            WeightInKilograms = info.GetInt32(nameof(WeightInKilograms));
-            Gender = (HumanGender)info.GetValue(nameof(Gender), typeof(HumanGender));
-        }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(Age), Age);
-            info.AddValue(nameof(HeightInCentimeters), HeightInCentimeters);
-            info.AddValue(nameof(WeightInKilograms), WeightInKilograms);
-            info.AddValue(nameof(Gender), Gender);
-            info.AddValue(nameof(Bmi), Bmi);
-        }
-
-
         public int Age 
         { 
             get { return _age; }
@@ -89,8 +70,6 @@ namespace BmiCalculator
             }
         }
 
-        public double HeightInMeters => _heightCm / (double)CentimetersInMeter;
-
         public int WeightInKilograms
         {
             get { return _weightKg; }
@@ -101,9 +80,9 @@ namespace BmiCalculator
             }
         }
 
-        public HumanGender Gender { get; set; }
+        public HumanGender Gender { get { return _gender; } set { _gender = value; } }
 
-        public double Bmi => WeightInKilograms / Math.Pow(HeightInMeters, 2.0);
+        public double Bmi => WeightInKilograms / Math.Pow(_heightCm / (double)CentimetersInMeter, 2.0);
 
         private static void CheckAge(int age)
         {

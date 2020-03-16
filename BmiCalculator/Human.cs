@@ -84,6 +84,17 @@ namespace BmiCalculator
 
         public double Bmi => WeightInKilograms / Math.Pow(_heightCm / (double)CentimetersInMeter, 2.0);
 
+        public override string ToString()
+        {
+            return String.Format("Рост: {0} см, Вес: {1} кг, Возраст: {2} лет, Пол: {3}, BMI: {4:f2}",
+                HeightInCentimeters,
+                WeightInKilograms,
+                Age,
+                Gender == HumanGender.Male ? "мужской" : "женский",
+                Bmi);
+        }
+
+
         private static void CheckAge(int age)
         {
             if (!(age >= MinAge && age <= MaxAge))

@@ -13,14 +13,14 @@ namespace BmiCalculator
     /// </summary>
     public partial class BmiResultForm : Form
     {
-        private const string SerializedObjectsFileName = "bmi.json";
-
         private readonly Human _human;
+        private readonly string _bmiRecordsFileName;
 
-        public BmiResultForm(BmiCalculator.CalculationResults calculationResult, Human human)
+        public BmiResultForm(string bmiRecordsFileName, BmiCalculator.CalculationResults calculationResult, Human human)
         {
             InitializeComponent();
 
+            _bmiRecordsFileName = bmiRecordsFileName;
             _human = human;
 
             bmiPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -45,7 +45,7 @@ namespace BmiCalculator
             try
             {
                 byte[] separator = new UTF8Encoding(true).GetBytes("\n");
-                fileStream = new FileStream(SerializedObjectsFileName, FileMode.Append | FileMode.Create);
+                fileStream = new FileStream(_bmiRecordsFileName, FileMode.Append | FileMode.Create);
                 await JsonSerializer.SerializeAsync(fileStream, _human);
                 fileStream.Write(separator, 0, separator.Length);
             }

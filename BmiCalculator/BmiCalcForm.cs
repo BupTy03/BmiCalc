@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace BmiCalculator
@@ -11,9 +12,27 @@ namespace BmiCalculator
     /// </summary>
     public partial class BmiCalcForm : Form
     {
-        public BmiCalcForm()
+        public const string BmiRecordsFileName = "bmi.json";
+
+        public BmiCalcForm(AuthorizationResult auth)
         {
             InitializeComponent();
+            Authorize(auth);
+        }
+
+        private void Authorize(AuthorizationResult auth)
+        {
+            switch (auth)
+            {
+                case AuthorizationResult.AuthorizedAsUser:
+                    break;
+                case AuthorizationResult.AuthorizedAsAdministrator:
+                    showRecordsButton.Visible = true;
+                    break;
+                default:
+                    Debug.Assert(false, "User is not authorized");
+                    break;
+            }
         }
 
         /// <summary>
@@ -121,9 +140,17 @@ namespace BmiCalculator
                 return;
             }
 
-            using (var resultForm = new BmiResultForm(calcResult, human))
+            using (var resultForm = new BmiResultForm(BmiRecordsFileName, calcResult, human))
             {
                 resultForm.ShowDialog();
+            }
+        }
+
+        private void OnShowRecordsButtonClicked(object sender, EventArgs e)
+        {
+            using(var viewRecordsForm = new BmiRecordsViewForm(BmiRecordsFileName))
+            {
+                viewRecordsForm.ShowDialog();
             }
         }
     }

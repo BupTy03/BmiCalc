@@ -14,7 +14,12 @@ namespace BmiCalculator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BmiCalcForm());
+
+            var auth = AuthorizationForm.Authorize();
+            if (auth == AuthorizationResult.NotAuthorized)
+                return;
+
+            Application.Run(new BmiCalcForm(auth));
         }
     }
 }

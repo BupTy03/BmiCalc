@@ -43,6 +43,7 @@
             this.ageTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ageErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.showRecordsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.heightErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weightErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ageErrorProvider)).BeginInit();
@@ -51,7 +52,7 @@
             // calcButton
             // 
             this.calcButton.Enabled = false;
-            this.calcButton.Location = new System.Drawing.Point(72, 119);
+            this.calcButton.Location = new System.Drawing.Point(104, 120);
             this.calcButton.Name = "calcButton";
             this.calcButton.Size = new System.Drawing.Size(75, 23);
             this.calcButton.TabIndex = 0;
@@ -61,7 +62,7 @@
             // 
             // exitButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(153, 119);
+            this.exitButton.Location = new System.Drawing.Point(185, 120);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(75, 23);
             this.exitButton.TabIndex = 1;
@@ -164,11 +165,23 @@
             // 
             this.ageErrorProvider.ContainerControl = this;
             // 
+            // showRecordsButton
+            // 
+            this.showRecordsButton.Location = new System.Drawing.Point(23, 120);
+            this.showRecordsButton.Name = "showRecordsButton";
+            this.showRecordsButton.Size = new System.Drawing.Size(75, 23);
+            this.showRecordsButton.TabIndex = 11;
+            this.showRecordsButton.Text = "Просмотр";
+            this.showRecordsButton.UseVisualStyleBackColor = true;
+            this.showRecordsButton.Visible = false;
+            this.showRecordsButton.Click += new System.EventHandler(this.OnShowRecordsButtonClicked);
+            // 
             // BmiCalcForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(244, 154);
+            this.ClientSize = new System.Drawing.Size(272, 155);
+            this.Controls.Add(this.showRecordsButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ageTextBox);
             this.Controls.Add(this.weightTextBox);
@@ -208,5 +221,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox ageTextBox;
         private System.Windows.Forms.ErrorProvider ageErrorProvider;
+        private System.Windows.Forms.Button showRecordsButton;
     }
 }

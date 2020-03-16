@@ -74,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthorizationForm.Designer.cs">
+      <DependentUpon>AuthorizationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BmiCalcForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,7 +96,16 @@
     <Compile Include="Human.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BmiRecordsViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BmiRecordsViewForm.Designer.cs">
+      <DependentUpon>BmiRecordsViewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SegmentsList.cs" />
+    <EmbeddedResource Include="AuthorizationForm.resx">
+      <DependentUpon>AuthorizationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BmiCalcForm.resx">
       <DependentUpon>BmiCalcForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +121,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BmiRecordsViewForm.resx">
+      <DependentUpon>BmiRecordsViewForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

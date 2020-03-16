@@ -56,9 +56,9 @@
             this.calcButton.Name = "calcButton";
             this.calcButton.Size = new System.Drawing.Size(75, 23);
             this.calcButton.TabIndex = 0;
-            this.calcButton.Text = "Рассчитать";
+            this.calcButton.Text = "&Рассчитать";
             this.calcButton.UseVisualStyleBackColor = true;
-            this.calcButton.Click += new System.EventHandler(this.CalculateButtonClicked);
+            this.calcButton.Click += new System.EventHandler(this.OnCalculateButtonClicked);
             // 
             // exitButton
             // 
@@ -66,9 +66,9 @@
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(75, 23);
             this.exitButton.TabIndex = 1;
-            this.exitButton.Text = "Выход";
+            this.exitButton.Text = "&Выход";
             this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.ExitButtonClicked);
+            this.exitButton.Click += new System.EventHandler(this.OnExitButtonClicked);
             // 
             // label1
             // 
@@ -77,7 +77,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "&Рост:";
+            this.label1.Text = "Рост:";
             // 
             // label2
             // 
@@ -86,7 +86,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "&Вес:";
+            this.label2.Text = "Вес:";
             // 
             // label3
             // 
@@ -95,7 +95,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "&Пол:";
+            this.label3.Text = "Пол:";
             // 
             // manRadioButton
             // 
@@ -106,7 +106,7 @@
             this.manRadioButton.Size = new System.Drawing.Size(70, 17);
             this.manRadioButton.TabIndex = 5;
             this.manRadioButton.TabStop = true;
-            this.manRadioButton.Text = "мужской";
+            this.manRadioButton.Text = "&мужской";
             this.manRadioButton.UseVisualStyleBackColor = true;
             // 
             // womanRadioButton
@@ -117,7 +117,7 @@
             this.womanRadioButton.Size = new System.Drawing.Size(69, 17);
             this.womanRadioButton.TabIndex = 6;
             this.womanRadioButton.TabStop = true;
-            this.womanRadioButton.Text = "женский";
+            this.womanRadioButton.Text = "&женский";
             this.womanRadioButton.UseVisualStyleBackColor = true;
             // 
             // heightTextBox
@@ -171,7 +171,7 @@
             this.showRecordsButton.Name = "showRecordsButton";
             this.showRecordsButton.Size = new System.Drawing.Size(75, 23);
             this.showRecordsButton.TabIndex = 11;
-            this.showRecordsButton.Text = "Просмотр";
+            this.showRecordsButton.Text = "&Просмотр";
             this.showRecordsButton.UseVisualStyleBackColor = true;
             this.showRecordsButton.Visible = false;
             this.showRecordsButton.Click += new System.EventHandler(this.OnShowRecordsButtonClicked);

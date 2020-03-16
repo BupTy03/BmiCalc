@@ -82,11 +82,6 @@ namespace SegmentsList
         /// </summary>
         private struct Segment
         {
-            /// <summary>
-            /// Простой конструктор, инициализирующий поля.
-            /// </summary>
-            /// <param name="lowerBound">Нижняя граница.</param>
-            /// <param name="value">Значение.</param>
             public Segment(TKey lowerBound, TValue value)
             {
                 LowerBound = lowerBound;
@@ -103,9 +98,6 @@ namespace SegmentsList
             public TValue Value { get; }
         }
 
-        /// <summary>
-        /// Компаратор, реализующий интерфейс IComparer для сегмента.
-        /// </summary>
         private class SegmentComp : IComparer<Segment>
         {
             public int Compare(Segment x, Segment y)
@@ -118,7 +110,7 @@ namespace SegmentsList
         /// Сегменты хрянятся последовательно в обычном сортированном списке.
         /// Инварианты класса:
         /// 1. Список хранит уникальные значения.
-        /// 2. Список всегда отсортирован по ключу.
+        /// 2. Список всегда отсортирован по ключу(по нижним границам сегмента).
         /// </summary>
         private List<Segment> m_data = new List<Segment>();
     }

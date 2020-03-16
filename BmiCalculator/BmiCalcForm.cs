@@ -3,6 +3,9 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 
 namespace BmiCalculator
@@ -17,10 +20,13 @@ namespace BmiCalculator
         public BmiCalcForm(AuthorizationResult auth)
         {
             InitializeComponent();
-            Authorize(auth);
+            ApplyAuthorizationResult(auth);
         }
 
-        private void Authorize(AuthorizationResult auth)
+        /// <summary>
+        /// Применить результаты авторизации.
+        /// </summary>
+        private void ApplyAuthorizationResult(AuthorizationResult auth)
         {
             switch (auth)
             {
@@ -33,6 +39,76 @@ namespace BmiCalculator
                     Debug.Assert(false, "User is not authorized");
                     break;
             }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Рассчитать".
+        /// </summary>
+        private void OnCalculateButtonClicked(object sender, EventArgs e)
+        {
+            if (!ValidateForm())
+            {
+                return;
+            }
+
+            BmiCalculator.CalculationResults calcResult;
+            Human human;
+            try
+            {
+                int age = Int32.Parse(ageTextBox.Text);
+                int heightCm = Int32.Parse(heightTextBox.Text);
+                int weightKg = Int32.Parse(weightTextBox.Text);
+                HumanGender gender = manRadioButton.Checked ? HumanGender.Male : HumanGender.Female;
+
+                human = new Human(age, heightCm, weightKg, gender);
+                calcResult = BmiCalculator.Instance.Calculate(human);
+            }
+            catch (FileNotFoundException exception)
+            {
+                ShowError(String.Format("Файл изображения \"{0}\" не найден!", exception.FileName));
+                return;
+            }
+            catch (Exception)
+            {
+                ShowError("Упс, кажется что-то пошло не так :(");
+                return;
+            }
+
+            using (var resultForm = new BmiResultForm(BmiRecordsFileName, calcResult, human))
+            {
+                resultForm.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Выход".
+        /// </summary>
+        private void OnExitButtonClicked(object sender, EventArgs e) => Close();
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Показать".
+        /// </summary>
+        private void OnShowRecordsButtonClicked(object sender, EventArgs e) => LoadAndShowRecordsAsync();
+
+        /// <summary>
+        /// Обрабатывает события изменения текста в TextBox-ах.
+        /// </summary>
+        private void OnTextChanged(object sender, EventArgs e)
+        {
+            calcButton.Enabled = ValidateForm();
+        }
+
+
+        /// <summary>
+        /// Проверяет введённые в форму данные.
+        /// </summary>
+        /// <returns>true если форма правильно заполнена.</returns>
+        private bool ValidateForm()
+        {
+            return
+                ValidateTextBoxAndSetErrorToProvider(ageTextBox, ageErrorProvider, Human.MinAge, Human.MaxAge) &&
+                ValidateTextBoxAndSetErrorToProvider(heightTextBox, heightErrorProvider, Human.MinHeight, Human.MaxHeight) &&
+                ValidateTextBoxAndSetErrorToProvider(weightTextBox, weightErrorProvider, Human.MinWeight, Human.MaxWeight);
         }
 
         /// <summary>
@@ -74,29 +150,45 @@ namespace BmiCalculator
         }
 
         /// <summary>
-        /// Проверяет введённые в форму данные.
+        /// Асинхронно загрузить и отобразить в отдельном окне записи BMI.
         /// </summary>
-        /// <returns>true если форма правильно заполнена.</returns>
-        private bool ValidateForm()
+        private async Task LoadAndShowRecordsAsync()
         {
-            return
-                ValidateTextBoxAndSetErrorToProvider(ageTextBox, ageErrorProvider, Human.MinAge, Human.MaxAge) &&
-                ValidateTextBoxAndSetErrorToProvider(heightTextBox, heightErrorProvider, Human.MinHeight, Human.MaxHeight) &&
-                ValidateTextBoxAndSetErrorToProvider(weightTextBox, weightErrorProvider, Human.MinWeight, Human.MaxWeight);
+            showRecordsButton.Enabled = false;
+            using (var viewRecordsForm = new BmiRecordsViewForm(await Task.Run(LoadRecords)))
+            {
+                viewRecordsForm.ShowDialog();
+            }
+            showRecordsButton.Enabled = true;
         }
 
         /// <summary>
-        /// Обрабатывает события изменения текста в TextBox-ах.
+        /// Загрузить записи BMI.
         /// </summary>
-        private void OnTextChanged(object sender, EventArgs e)
+        private List<Human> LoadRecords()
         {
-            calcButton.Enabled = ValidateForm();
-        }
+            try
+            {
+                string[] lines = File.ReadAllLines(BmiRecordsFileName);
 
-        /// <summary>
-        /// Обработка события нажатия на кнопку "Выход".
-        /// </summary>
-        private void ExitButtonClicked(object sender, EventArgs e) => Close();
+                var result = new List<Human>{ Capacity = lines.Length };
+                foreach (string line in lines)
+                {
+                    if (line.Length == 0)
+                        continue;
+
+                    result.Add(JsonSerializer.Deserialize<Human>(line));
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+                ShowError("Не удалось корректно загрузить записи");
+            }
+
+            return new List<Human>();
+        }
 
         /// <summary>
         /// Показать ошибку.
@@ -105,53 +197,6 @@ namespace BmiCalculator
         private void ShowError(string errorMessage)
         {
             MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        /// <summary>
-        /// Обработка события нажатия на кнопку "Рассчитать".
-        /// </summary>
-        private void CalculateButtonClicked(object sender, EventArgs e)
-        {
-            if(!ValidateForm())
-            {
-                return;
-            }
-
-            BmiCalculator.CalculationResults calcResult;
-            Human human;
-            try
-            {
-                int age = Int32.Parse(ageTextBox.Text);
-                int heightCm = Int32.Parse(heightTextBox.Text);
-                int weightKg = Int32.Parse(weightTextBox.Text);
-                HumanGender gender = manRadioButton.Checked ? HumanGender.Male : HumanGender.Female;
-
-                human = new Human(age, heightCm, weightKg, gender);
-                calcResult = BmiCalculator.Instance.Calculate(human);
-            }
-            catch(FileNotFoundException exception)
-            {
-                ShowError(String.Format("Файл изображения \"{0}\" не найден!", exception.FileName));
-                return;
-            }
-            catch(Exception)
-            {
-                ShowError("Упс, кажется что-то пошло не так :(");
-                return;
-            }
-
-            using (var resultForm = new BmiResultForm(BmiRecordsFileName, calcResult, human))
-            {
-                resultForm.ShowDialog();
-            }
-        }
-
-        private void OnShowRecordsButtonClicked(object sender, EventArgs e)
-        {
-            using(var viewRecordsForm = new BmiRecordsViewForm(BmiRecordsFileName))
-            {
-                viewRecordsForm.ShowDialog();
-            }
         }
     }
 }

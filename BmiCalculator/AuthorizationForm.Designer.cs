@@ -56,7 +56,7 @@
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 24);
             this.okButton.TabIndex = 2;
-            this.okButton.Text = "OK";
+            this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.OnOkButtonClicked);
             // 
@@ -66,7 +66,7 @@
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(75, 23);
             this.exitButton.TabIndex = 3;
-            this.exitButton.Text = "Выход";
+            this.exitButton.Text = "&Выход";
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.OnExitButtonClicked);
             // 

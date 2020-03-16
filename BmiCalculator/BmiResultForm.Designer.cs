@@ -60,7 +60,7 @@
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
-            this.okButton.Text = "OK";
+            this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.OkButtonClicked);
             // 
@@ -70,7 +70,7 @@
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 3;
-            this.saveButton.Text = "Сохранить";
+            this.saveButton.Text = "&Сохранить";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.SaveButtonClicked);
             // 

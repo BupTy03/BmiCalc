@@ -35,6 +35,12 @@ namespace BmiCalculator
         private void OkButtonClicked(object sender, EventArgs e) => Close();
 
         /// <summary>
+        /// Обработка нажатия кнопки "Сохранить".
+        /// </summary>
+        private void SaveButtonClicked(object sender, EventArgs e) => SaveHumanToFileAsync();
+
+
+        /// <summary>
         /// Сохранение данных(асинхронно).
         /// </summary>
         private async Task SaveHumanToFileAsync()
@@ -59,10 +65,5 @@ namespace BmiCalculator
                 saveButton.Enabled = true;
             }
         }
-
-        /// <summary>
-        /// Обработка нажатия кнопки "Сохранить".
-        /// </summary>
-        private void SaveButtonClicked(object sender, EventArgs e) => SaveHumanToFileAsync();
     }
 }

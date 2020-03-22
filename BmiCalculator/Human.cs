@@ -86,12 +86,30 @@ namespace BmiCalculator
 
         public override string ToString()
         {
-            return String.Format("Рост: {0} см, Вес: {1} кг, Возраст: {2} лет, Пол: {3}, BMI: {4:f2}",
+            return String.Format("Рост: {0} см, Вес: {1} кг, Возраст: {2} {3}, Пол: {4}, BMI: {5:f2}",
                 HeightInCentimeters,
                 WeightInKilograms,
                 Age,
+                YearsCaseByAge(Age),
                 Gender == HumanGender.Male ? "мужской" : "женский",
                 Bmi);
+        }
+
+        private static string YearsCaseByAge(int age)
+        {
+            int twoLastDigits = age % 100;
+            int lastDigit = age % 10;
+
+            if (twoLastDigits >= 11 && twoLastDigits <= 19)
+                return "лет";
+
+            if (lastDigit == 1)
+                return "год";
+
+            if (lastDigit >= 2 && lastDigit <= 4)
+                return "года";
+
+            return "лет";
         }
 
 

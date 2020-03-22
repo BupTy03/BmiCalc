@@ -16,14 +16,14 @@ namespace BmiCalculator
         private readonly Human _human;
         private readonly string _bmiRecordsFileName;
 
-        public BmiResultForm(string bmiRecordsFileName, BmiCalculator.CalculationResults calculationResult, Human human)
+        public BmiResultForm(BmiCalculator.CalculationResults calculationResult, Human human, string bmiRecordsFileName)
         {
             InitializeComponent();
 
             _bmiRecordsFileName = bmiRecordsFileName;
             _human = human;
 
-            bmiPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+            bmiPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             bmiPictureBox.Image = calculationResult.BmiImage;
             bmiResultLabel.Text = calculationResult.BmiText;
             bmiResultLabel.ForeColor = calculationResult.BmiTextColor;

@@ -74,7 +74,7 @@ namespace BmiCalculator
                 return;
             }
 
-            using (var resultForm = new BmiResultForm(BmiRecordsFileName, calcResult, human))
+            using (var resultForm = new BmiResultForm(calcResult, human, BmiRecordsFileName))
             {
                 resultForm.ShowDialog();
             }
@@ -105,10 +105,11 @@ namespace BmiCalculator
         /// <returns>true если форма правильно заполнена.</returns>
         private bool ValidateForm()
         {
-            return
-                ValidateTextBoxAndSetErrorToProvider(ageTextBox, ageErrorProvider, Human.MinAge, Human.MaxAge) &&
-                ValidateTextBoxAndSetErrorToProvider(heightTextBox, heightErrorProvider, Human.MinHeight, Human.MaxHeight) &&
-                ValidateTextBoxAndSetErrorToProvider(weightTextBox, weightErrorProvider, Human.MinWeight, Human.MaxWeight);
+            bool isValidAge = ValidateTextBoxAndSetErrorToProvider(ageTextBox, ageErrorProvider, Human.MinAge, Human.MaxAge);
+            bool isValidHeight = ValidateTextBoxAndSetErrorToProvider(heightTextBox, heightErrorProvider, Human.MinHeight, Human.MaxHeight);
+            bool isValidWeight = ValidateTextBoxAndSetErrorToProvider(weightTextBox, weightErrorProvider, Human.MinWeight, Human.MaxWeight);
+
+            return isValidAge && isValidHeight && isValidWeight;
         }
 
         /// <summary>
@@ -129,13 +130,13 @@ namespace BmiCalculator
 
             if (text.Length == 0)
             {
-                errProvider.SetError(txtBox, "Введите значение!");
+                errProvider.SetError(txtBox, "Введите значение");
                 return false;
             }
 
             if (!Int32.TryParse(text, out int value))
             {
-                errProvider.SetError(txtBox, "Некорректное значение!");
+                errProvider.SetError(txtBox, "Некорректное значение");
                 return false;
             }
 

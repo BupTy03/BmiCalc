@@ -84,13 +84,13 @@ namespace BmiCalculator
             // Таблица заполнена в соответствии с: https://simpledoc.ru/indeks-massy-tela/#start
 
             var littleAge = new SegmentsList<double, FatLevel>();
-            littleAge.Add(0, FatLevel.Underweight);
+            littleAge.Add(0,    FatLevel.Underweight);
             littleAge.Add(15.3, FatLevel.Normal);
-            littleAge.Add(17, FatLevel.Owerweight);
+            littleAge.Add(17,   FatLevel.Owerweight);
             littleAge.Add(18.3, FatLevel.FirstGradeObesity);
             littleAge.Add(20.3, FatLevel.SecondGradeObesity);
-            littleAge.Add(25, FatLevel.ThirdGradeObesity);
-            littleAge.Add(35, FatLevel.FourthGradeObesity);
+            littleAge.Add(25,   FatLevel.ThirdGradeObesity);
+            littleAge.Add(35,   FatLevel.FourthGradeObesity);
 
             var middleAge = new SegmentsList<double, FatLevel>();
             middleAge.Add(0,    FatLevel.Underweight);
@@ -138,26 +138,26 @@ namespace BmiCalculator
         /// <returns>Словарь с записями FatLevelEntry.</returns>
         private static Dictionary<FatLevel, FatLevelEntry> LoadEntries()
         {
-            var mens = new Dictionary<FatLevel, string> 
+            var menImages = new Dictionary<FatLevel, Image> 
             {
-                [FatLevel.Underweight]          = "m1.jpg",
-                [FatLevel.Normal]               = "m2.jpg",
-                [FatLevel.Owerweight]           = "m3.jpg",
-                [FatLevel.FirstGradeObesity]    = "m4.jpg",
-                [FatLevel.SecondGradeObesity]   = "m5.jpg",
-                [FatLevel.ThirdGradeObesity]    = "m5.jpg",
-                [FatLevel.FourthGradeObesity]   = "m5.jpg"
+                [FatLevel.Underweight]          = Properties.Resources.m1,
+                [FatLevel.Normal]               = Properties.Resources.m2,
+                [FatLevel.Owerweight]           = Properties.Resources.m3,
+                [FatLevel.FirstGradeObesity]    = Properties.Resources.m4,
+                [FatLevel.SecondGradeObesity]   = Properties.Resources.m5,
+                [FatLevel.ThirdGradeObesity]    = Properties.Resources.m5,
+                [FatLevel.FourthGradeObesity]   = Properties.Resources.m5
             };
 
-            var womens = new Dictionary<FatLevel, string>
+            var womenImages = new Dictionary<FatLevel, Image>
             {
-                [FatLevel.Underweight]          = "f1.jpg",
-                [FatLevel.Normal]               = "f2.jpg",
-                [FatLevel.Owerweight]           = "f3.jpg",
-                [FatLevel.FirstGradeObesity]    = "f4.jpg",
-                [FatLevel.SecondGradeObesity]   = "f5.jpg",
-                [FatLevel.ThirdGradeObesity]    = "f5.jpg",
-                [FatLevel.FourthGradeObesity]   = "f5.jpg"
+                [FatLevel.Underweight]          = Properties.Resources.f1,
+                [FatLevel.Normal]               = Properties.Resources.f2,
+                [FatLevel.Owerweight]           = Properties.Resources.f3,
+                [FatLevel.FirstGradeObesity]    = Properties.Resources.f4,
+                [FatLevel.SecondGradeObesity]   = Properties.Resources.f5,
+                [FatLevel.ThirdGradeObesity]    = Properties.Resources.f5,
+                [FatLevel.FourthGradeObesity]   = Properties.Resources.f5
             };
 
             var messages = new Dictionary<FatLevel, string>
@@ -182,17 +182,12 @@ namespace BmiCalculator
                 [FatLevel.FourthGradeObesity]   = Color.FromArgb(231, 55, 65)
             };
 
-
-            string imagePathPrefix = new string[] {
-                @"img\", @"..\img\", @"..\..\img\"
-            }.FirstOrDefault(prefix => Directory.Exists(prefix));
-
             var result = new Dictionary<FatLevel, FatLevelEntry>();
             foreach (FatLevel level in Enum.GetValues(typeof(FatLevel)))
             {
                 result.Add(level, new FatLevelEntry(
-                    Image.FromFile(imagePathPrefix + mens[level]),
-                    Image.FromFile(imagePathPrefix + womens[level]),
+                    menImages[level],
+                    womenImages[level],
                     messages[level],
                     colors[level]
                 ));

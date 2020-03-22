@@ -120,6 +120,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="BmiRecordsViewForm.resx">
       <DependentUpon>BmiRecordsViewForm.cs</DependentUpon>
@@ -137,6 +138,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\f1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\f2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\f3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\f4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\f5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\m1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\m2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\m3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\m4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\m5.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

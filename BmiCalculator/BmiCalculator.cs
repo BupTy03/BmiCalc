@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
-using System.IO;
+using System.Diagnostics;
 
 using SegmentsList;
 
@@ -46,6 +45,11 @@ namespace BmiCalculator
         {
             public FatLevelEntry(Image menImage, Image womenImage, string message, Color textColor)
             {
+                Debug.Assert(menImage != null);
+                Debug.Assert(womenImage != null);
+                Debug.Assert(message != null);
+                Debug.Assert(textColor != null);
+
                 MenImage = menImage;
                 WomenImage = womenImage;
                 Message = message;
@@ -66,6 +70,10 @@ namespace BmiCalculator
         {
             public CalculationResults(Image bmiImage, string bmiText, Color bmiTextColor)
             {
+                Debug.Assert(bmiImage != null);
+                Debug.Assert(bmiText != null);
+                Debug.Assert(bmiTextColor != null);
+
                 BmiImage = bmiImage;
                 BmiText = bmiText;
                 BmiTextColor = bmiTextColor;
@@ -124,6 +132,8 @@ namespace BmiCalculator
         /// <returns>Результаты вычисления BMI.</returns>
         public CalculationResults Calculate(Human human)
         {
+            Debug.Assert(human != null);
+
             FatLevelEntry entry = _fatLevelEntries[_bmiByAgesList[human.Age][human.Bmi]];
 
             return new CalculationResults(

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 
 namespace SegmentsList
@@ -42,6 +43,8 @@ namespace SegmentsList
         /// <returns>Возвращает true при успешном добавлении интервала.</returns>
         public bool Add(TKey lowerBound, TValue value)
         {
+            Debug.Assert(lowerBound != null);
+
             var segment = new Segment(lowerBound, value);
             int index = m_data.BinarySearch(segment, new SegmentComp());
             if (index >= 0)
@@ -64,6 +67,8 @@ namespace SegmentsList
         {
             get
             {
+                Debug.Assert(index != null);
+
                 if (m_data.Count == 0)
                     throw new IndexOutOfRangeException();
 
@@ -84,6 +89,8 @@ namespace SegmentsList
         {
             public Segment(TKey lowerBound, TValue value)
             {
+                Debug.Assert(lowerBound != null);
+
                 LowerBound = lowerBound;
                 Value = value;
             }

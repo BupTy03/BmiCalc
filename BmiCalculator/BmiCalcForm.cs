@@ -63,11 +63,6 @@ namespace BmiCalculator
                 human = new Human(age, heightCm, weightKg, gender);
                 calcResult = BmiCalculator.Instance.Calculate(human);
             }
-            catch (FileNotFoundException exception)
-            {
-                ShowError(String.Format("Файл изображения \"{0}\" не найден!", exception.FileName));
-                return;
-            }
             catch (Exception)
             {
                 ShowError("Упс, кажется что-то пошло не так :(");
@@ -122,6 +117,9 @@ namespace BmiCalculator
         /// <returns>true если проверка прошла успешно.</returns>
         private static bool ValidateTextBoxAndSetErrorToProvider(TextBox txtBox, ErrorProvider errProvider, int minValue, int maxValue)
         {
+            Debug.Assert(txtBox != null);
+            Debug.Assert(errProvider != null);
+
             string text = txtBox.Text;
             if (text.Length > 0 && !Char.IsDigit(text.Last()))
             {
@@ -183,6 +181,11 @@ namespace BmiCalculator
 
                 return result;
             }
+            catch (FileNotFoundException exception)
+            {
+                ShowError(String.Format("Файл \"{0}\" не найден!", exception.FileName));
+                return new List<Human>();
+            }
             catch (Exception)
             {
                 ShowError("Не удалось корректно загрузить записи");
@@ -197,6 +200,7 @@ namespace BmiCalculator
         /// <param name="errorMessage">Сообщение об ошибке.</param>
         private void ShowError(string errorMessage)
         {
+            Debug.Assert(errorMessage != null);
             MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }

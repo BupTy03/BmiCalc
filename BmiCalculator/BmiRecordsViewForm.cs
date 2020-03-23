@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+
 
 namespace BmiCalculator
 {
@@ -17,8 +12,10 @@ namespace BmiCalculator
     /// </summary>
     public partial class BmiRecordsViewForm : Form
     {
-        public BmiRecordsViewForm(List<Human> records)
+        public BmiRecordsViewForm(IEnumerable<Human> records)
         {
+            Debug.Assert(records != null);
+
             InitializeComponent();
             recordsListBox.Items.AddRange(records.ToArray());
         }

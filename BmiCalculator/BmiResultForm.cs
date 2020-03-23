@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 
 namespace BmiCalculator
@@ -18,6 +19,9 @@ namespace BmiCalculator
 
         public BmiResultForm(BmiCalculator.CalculationResults calculationResult, Human human, string bmiRecordsFileName)
         {
+            Debug.Assert(human != null);
+            Debug.Assert(bmiRecordsFileName != null);
+
             InitializeComponent();
 
             _bmiRecordsFileName = bmiRecordsFileName;

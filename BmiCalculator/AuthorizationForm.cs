@@ -28,7 +28,7 @@ namespace BmiCalculator
             ["Denis"] = "12345"
         };
 
-        public AuthorizationForm()
+        private AuthorizationForm()
         {
             InitializeComponent();
         }
